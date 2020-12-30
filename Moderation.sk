@@ -1,7 +1,7 @@
 # Options
 options:
     prefix: &4✖ &cModération &7➜
-    version: 1.0
+    version: 0.2
 
 # Functions
 
@@ -176,10 +176,14 @@ command /admin [<text>] [<text>] [<text>]:
                 send ""
                 send "{@prefix} Liste des commandes : "
                 send ""
+                send " &7• /admin &cforceupdate"
+                send ""
                 send " &7• /admin &ccaptcha <list/generate>"
                 send ""
                 stop
-            if arg-1 is "captcha":
+            else if arg-1 is "forceupdate":
+                m_update()
+            else if arg-1 is "captcha":
                 if arg-2 isn't set:
                     send ""
                     send "{@prefix} Liste des commandes : "
