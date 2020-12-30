@@ -1,47 +1,209 @@
+# Options
+options:
+    prefix: &4✖ &cModération &7➜
+    version: 1.0
 
 # Functions
 
-function update():
-    set {_ver} to text from "https://raw.githubusercontent.com/Rave-Block/Moderation/main/version?token=AIPLEY2PYD7YEDXECEVPP7K75POR2"
-    if {_ver} is not "{@version}":
-        if {@AutoUpdate} is true:
-            if file exists at "plugins/Skript/scripts/%script's name%.sk":
-                send "{@prefix} Mise à jour disponible ! La version &e%{_ver}%" to player
-                download "https://raw.githubusercontent.com/alexistb2904/Lobbyscript/main/spawn.sk" to "plugins/Skript/scripts/%script's name%.sk"
-                wait 5 ticks
-                execute console command "/skript reload %script's name%"
-                send "{@prefix} Mise a jour terminée !" to player
-                stop
-        else:
-            send "{@prefix} L'AutoUpdate est désactiver, annulation de la mise à jour.." to player
-    else:
-        send "{@prefix} Aucune mise à jour disponible." to player
+function sendToRankedPlayers(m: text):
+    loop loopAllRankedPlayers():
+        send "{@prefix} %{_m}%" to loop-value
 
+function m_update():
+    set {_ver} to text from "https://raw.githubusercontent.com/Rave-Block/Moderation/main/version"
+    if {_ver} is not "{@version}":
+        if file exists at "plugins/Skript/scripts/%script's name%.sk":
+            sendToRankedPlayers("&7Mise à jour disponible ! La version &c%{_ver}%")
+            download "https://raw.githubusercontent.com/Rave-Block/Moderation/main/Moderation.sk" to "plugins/Skript/scripts/%script's name%.sk"
+            wait 5 ticks
+            execute console command "/skript reload %script's name%"
+            sendToRankedPlayers("&7Mise à jour terminée !")
+            stop
+    else:
+        sendToRankedPlayers("&7Aucune mise à jour disponible.")
+
+function generateCaptcha(n: number):
+    clear {captcha::*}
+    add "a" to {_letter::*}
+    add "z" to {_letter::*}
+    add "e" to {_letter::*}
+    add "r" to {_letter::*}
+    add "t" to {_letter::*}
+    add "y" to {_letter::*}
+    add "u" to {_letter::*}
+    add "i" to {_letter::*}
+    add "o" to {_letter::*}
+    add "p" to {_letter::*}
+    add "q" to {_letter::*}
+    add "s" to {_letter::*}
+    add "d" to {_letter::*}
+    add "f" to {_letter::*}
+    add "g" to {_letter::*}
+    add "h" to {_letter::*}
+    add "j" to {_letter::*}
+    add "k" to {_letter::*}
+    add "l" to {_letter::*}
+    add "m" to {_letter::*}
+    add "w" to {_letter::*}
+    add "x" to {_letter::*}
+    add "c" to {_letter::*}
+    add "v" to {_letter::*}
+    add "b" to {_letter::*}
+    add "n" to {_letter::*}
+    add "A" to {_letter::*}
+    add "Z" to {_letter::*}
+    add "E" to {_letter::*}
+    add "R" to {_letter::*}
+    add "T" to {_letter::*}
+    add "Y" to {_letter::*}
+    add "U" to {_letter::*}
+    add "I" to {_letter::*}
+    add "O" to {_letter::*}
+    add "P" to {_letter::*}
+    add "Q" to {_letter::*}
+    add "S" to {_letter::*}
+    add "D" to {_letter::*}
+    add "D" to {_letter::*}
+    add "F" to {_letter::*}
+    add "G" to {_letter::*}
+    add "H" to {_letter::*}
+    add "J" to {_letter::*}
+    add "K" to {_letter::*}
+    add "L" to {_letter::*}
+    add "M" to {_letter::*}
+    add "W" to {_letter::*}
+    add "X" to {_letter::*}
+    add "C" to {_letter::*}
+    add "V" to {_letter::*}
+    add "B" to {_letter::*}
+    add "N" to {_letter::*}
+    add "0" to {_letter::*}
+    add "1" to {_letter::*}
+    add "2" to {_letter::*}
+    add "3" to {_letter::*}
+    add "4" to {_letter::*}
+    add "5" to {_letter::*}
+    add "6" to {_letter::*}
+    add "7" to {_letter::*}
+    add "8" to {_letter::*}
+    add "9" to {_letter::*}
+    loop {_n} times:
+        set {_captcha1} to a random element out of {_letter::*}
+        set {_captcha2} to a random element out of {_letter::*}
+        set {_captcha3} to a random element out of {_letter::*}
+        set {_captcha4} to a random element out of {_letter::*}
+        set {_captcha5} to a random element out of {_letter::*}
+        set {_captcharesult} to "%{_captcha1}%%{_captcha2}%%{_captcha3}%%{_captcha4}%%{_captcha5}%"
+        add {_captcharesult} to {captcha::*}
+
+# Auto Updater:
+
+every 30 minutes:
+    m_update()
 
 # Events
 
 on load:
+    m_update()
 
 # Mute
 
 command /mute [<player>] [<text>]:
     trigger:
+        if isModerator(player) is true:
+        else:
+            send "{@prefix} &cVous n'avez pas accès à cette commande."
+            stop
 
 command /unmute [<player>]:
     trigger:
+        if isModerator(player) is true:
+        else:
+            send "{@prefix} &cVous n'avez pas accès à cette commande."
+            stop
 
 # Kick
 
 command /kick [<player>] [<text>]:
     trigger:
+        if isModerator(player) is true:
+        else:
+            send "{@prefix} &cVous n'avez pas accès à cette commande."
+            stop
 
 # Ban
 
 command /tempban [<player>] [<text>] [<text>]:
     trigger:
+        if isModerator(player) is true:
+        else:
+            send "{@prefix} &cVous n'avez pas accès à cette commande."
+            stop
 
 command /ban [<player>] [<text>]:
     trigger:
+        if isModerator(player) is true:
+        else:
+            send "{@prefix} &cVous n'avez pas accès à cette commande."
+            stop
 
 command /unban [<player>]:
     trigger:
+        if isModerator(player) is true:
+        else:
+            send "{@prefix} &cVous n'avez pas accès à cette commande."
+            stop
+
+
+# Login
+
+on join:
+    set {%player%::captcha} to a random element out of {captcha::*}
+    send "&6&lCaptach : %{%player%::captcha}%"
+
+command /login [<text>]:
+    trigger:
+
+command /register [<text>] [<text>] [<text>]:
+    trigger:
+
+# Admin
+
+command /admin [<text>] [<text>] [<text>]:
+    trigger:
+        if isAdmin(player) is true:
+            if arg-1 isn't set:
+                send ""
+                send "{@prefix} Liste des commandes : "
+                send ""
+                send " &7• /admin &ccaptcha <list/generate>"
+                send ""
+                stop
+            if arg-1 is "captcha":
+                if arg-2 isn't set:
+                    send ""
+                    send "{@prefix} Liste des commandes : "
+                    send ""
+                    send " &7• /admin &ccaptcha list"
+                    send " &7• /admin &ccaptcha generate"
+                    send ""
+                    stop
+                else if arg-2 is "generate":
+                    if arg-3 isn't set:
+                        send "{@prefix} &cVeuillez préciser un nombre de captcha à générer."
+                        stop
+                    else:
+                        set {_n} to arg-3 parsed as number
+                        send "{@prefix} Génération de &c%{_n}% &ccaptcha &7en cours.."
+                        generateCaptcha({_n})
+                        send "{@prefix} Génération terminée."
+                else if arg-2 is "list":
+                    send ""
+                    send "{@prefix} Liste des captcha (&c%size of {captcha::*}%&7) :"
+                    send ""
+                    loop {captcha::*}:
+                        send "&8%loop-index% &7• &c%loop-value%"
+                    send ""
+        else:
+            send "{@prefix} &cVous n'avez pas accès à cette commande"
+            stop
