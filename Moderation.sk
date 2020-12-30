@@ -1,0 +1,47 @@
+
+# Functions
+
+function update():
+    set {_ver} to text from "https://raw.githubusercontent.com/Rave-Block/Moderation/main/version?token=AIPLEY2PYD7YEDXECEVPP7K75POR2"
+    if {_ver} is not "{@version}":
+        if {@AutoUpdate} is true:
+            if file exists at "plugins/Skript/scripts/%script's name%.sk":
+                send "{@prefix} Mise à jour disponible ! La version &e%{_ver}%" to player
+                download "https://raw.githubusercontent.com/alexistb2904/Lobbyscript/main/spawn.sk" to "plugins/Skript/scripts/%script's name%.sk"
+                wait 5 ticks
+                execute console command "/skript reload %script's name%"
+                send "{@prefix} Mise a jour terminée !" to player
+                stop
+        else:
+            send "{@prefix} L'AutoUpdate est désactiver, annulation de la mise à jour.." to player
+    else:
+        send "{@prefix} Aucune mise à jour disponible." to player
+
+
+# Events
+
+on load:
+
+# Mute
+
+command /mute [<player>] [<text>]:
+    trigger:
+
+command /unmute [<player>]:
+    trigger:
+
+# Kick
+
+command /kick [<player>] [<text>]:
+    trigger:
+
+# Ban
+
+command /tempban [<player>] [<text>] [<text>]:
+    trigger:
+
+command /ban [<player>] [<text>]:
+    trigger:
+
+command /unban [<player>]:
+    trigger:
